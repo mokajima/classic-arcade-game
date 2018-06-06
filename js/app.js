@@ -26,6 +26,10 @@ var Player = function() {
   // The image/sprite for the player, this uses
   // a helper we've provided to easily load images
   this.sprite = 'images/char-boy.png';
+
+  // The initial position of the player
+  this.x = 101 * 2; // 3th column
+  this.y = 83 * 5 - 83 / 2; // 6th row
 };
 
 // Update the player's position, required method for game
