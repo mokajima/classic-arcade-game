@@ -83,6 +83,14 @@ Player.prototype.handleInput = function(key) {
 // Place the player object in a variable called player
 var allEnemies = [];
 
+for (var i = 0; i < 6; i++) {
+
+  // Set the y coordinate of the enemy
+  const y = 83 * (i % 3 + 1) - 83 / 2;
+
+  allEnemies[i] = new Enemy(y);
+}
+
 var player = new Player();
 
 // This listens for key presses and sends the keys to your
