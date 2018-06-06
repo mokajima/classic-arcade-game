@@ -8,6 +8,10 @@ var Enemy = function(y) {
   // The initial position of the enemy
   this.x = -101 * 3;
   this.y = y;
+
+  // Set the speed of the enemy
+  // Max speed is 500px/sec and min speed is 100px/sec
+  this.speed = Math.floor(Math.random() * (500 - 100)) + 100;
 };
 
 // Update the enemy's position, required method for game
