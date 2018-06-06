@@ -42,7 +42,40 @@ Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.handleInput = function() {
+/**
+ * @description Move the player according to the user input
+ * @param {string} key - The key pressed
+ */
+Player.prototype.handleInput = function(key) {
+
+  if ('left' === key) {
+
+    if (this.x) {
+      this.x -= 101;
+    }
+
+  } else if ('up' === key) {
+
+    if (41.5 === this.y) {
+
+    } else {
+      this.y -= 83;
+    }
+
+  } else if ('right' === key) {
+
+    if (404 !== this.x) {
+      this.x += 101;
+    }
+
+  } else if ('down' === key) {
+
+    if (373.5 !== this.y) {
+      this.y += 83;
+    }
+
+  }
+
 };
 
 // Instantiate objects
