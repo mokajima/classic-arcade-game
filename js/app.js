@@ -7,6 +7,7 @@ const blockHalfHeight = blockHeight / 2;
 
 // Get the DOM elements
 const lives = document.getElementById('lives');
+const modal = document.getElementById('modal');
 
 /**
  * @description Enemies the player must avoid
@@ -198,4 +199,10 @@ document.addEventListener('keyup', function(e) {
   };
 
   player.handleInput(allowedKeys[e.keyCode]);
+});
+
+document.getElementById('modal__button').addEventListener('click', function() {
+
+  // Hide the modal
+  modal.classList.remove('is-active');
 });
