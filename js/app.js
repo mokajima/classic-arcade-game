@@ -173,9 +173,23 @@ Player.prototype.loseLife = function() {
 
 };
 
+/**
+ * @description Handle the game states
+ * @constructor
+ */
+const Game = function() {
+
+  // The level of the game
+  this.level = 1;
+
+  // The score of the game
+  this.score = 0;
+};
+
 // Instantiate objects
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+// Place the game object in a variable called game
 const allEnemies = [];
 
 for (let i = 0; i < 6; i++) {
@@ -187,6 +201,8 @@ for (let i = 0; i < 6; i++) {
 }
 
 const player = new Player();
+
+const game = new Game();
 
 // This listens for key presses and sends the keys to the
 // Player.handleInput() method.
