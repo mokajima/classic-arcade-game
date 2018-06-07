@@ -59,8 +59,12 @@ const Player = function() {
   this.sprite = 'images/char-boy.png';
 
   // The initial position of the player
-  this.x = 101 * 2; // 3th column
-  this.y = 83 * 5 - 83 / 2; // 6th row
+  this.startX = 101 * 2; // 3th column
+  this.startY = 83 * 5 - 83 / 2; // 6th row
+
+  // Set the position of the player
+  this.x = this.startX;
+  this.y = this.startY;
 
   // Whether the player has collided with the enemy or not
   this.collision = false;
@@ -70,8 +74,8 @@ const Player = function() {
  * @description Reset the state of the player
  */
 Player.prototype.reset = function() {
-  this.x = 101 * 2;
-  this.y = 83 * 5 - 83 / 2;
+  this.x = this.startX;
+  this.y = this.startY;
   this.collision = false;
 }
 
