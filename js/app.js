@@ -10,7 +10,10 @@ const Enemy = function(y) {
   this.sprite = 'images/enemy-bug.png';
 
   // The initial position of the enemy
-  this.x = -101 * 3;
+  this.startX = -101 * 3;
+
+  // Set the position of the enemy
+  this.x = this.startX;
   this.y = y;
 
   // Set the speed of the enemy
@@ -31,7 +34,7 @@ Enemy.prototype.update = function(dt) {
 
   // Back to the initial position if the enemy move off screen
   if (this.x > 505 + 101 * 3) {
-    this.x = -101 * 3;
+    this.x = this.startX;
   }
 
   // Check collision with the player
