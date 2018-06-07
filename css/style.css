@@ -1,5 +1,42 @@
+/* Reset */
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
 /* Foundation */
 body {
   font-family: "Coda", cursive;
   text-align: center;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 505px;
+  height: 60px;
+  position: relative;
+  bottom: -50px;
+}
+
+/* Lives */
+.lives {
+  display: flex;
+}
+
+.lives__item {
+  margin-right: 5px;
+  width: 30px;
+}
+
+.lives__item img {
+  width: 100%;
+  height: auto;
 }
