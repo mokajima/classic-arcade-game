@@ -135,7 +135,7 @@ Player.prototype.handleInput = function(key) {
 // Place the player object in a variable called player
 const allEnemies = [];
 
-for (var i = 0; i < 6; i++) {
+for (let i = 0; i < 6; i++) {
 
   // Set the y coordinate of the enemy
   const y = 83 * (i % 3 + 1) - 83 / 2;
