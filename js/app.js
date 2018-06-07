@@ -3,7 +3,7 @@
  * @constructor
  * @param {number} y - The y coordinate of the player
  */
-var Enemy = function(y) {
+const Enemy = function(y) {
 
   // The image/sprite for our enemies, this uses
   // a helper to easily load images
@@ -52,7 +52,7 @@ Enemy.prototype.render = function() {
  * @description The player character
  * @constructor
  */
-var Player = function() {
+const Player = function() {
 
   // The image/sprite for the player, this uses
   // a helper to easily load images
@@ -133,7 +133,7 @@ Player.prototype.handleInput = function(key) {
 // Instantiate objects
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var allEnemies = [];
+const allEnemies = [];
 
 for (var i = 0; i < 6; i++) {
 
@@ -143,12 +143,12 @@ for (var i = 0; i < 6; i++) {
   allEnemies[i] = new Enemy(y);
 }
 
-var player = new Player();
+const player = new Player();
 
 // This listens for key presses and sends the keys to the
 // Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
-  var allowedKeys = {
+  const allowedKeys = {
     37: 'left',
     38: 'up',
     39: 'right',
