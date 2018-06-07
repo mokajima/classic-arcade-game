@@ -1,3 +1,10 @@
+// Store the size of block in variables
+const blockWidth = 101;
+const blockHeight = 83;
+
+// The value to be subtracted in order to center entities vertically
+const blockHalfHeight = blockHeight / 2;
+
 /**
  * @description Enemies the player must avoid
  * @constructor
@@ -10,7 +17,7 @@ const Enemy = function(y) {
   this.sprite = 'images/enemy-bug.png';
 
   // The initial position of the enemy
-  this.startX = -101 * 3;
+  this.startX = -1 * blockWidth * 3;
 
   // Set the position of the enemy
   this.x = this.startX;
@@ -33,7 +40,8 @@ Enemy.prototype.update = function(dt) {
   this.x += this.speed * dt;
 
   // Back to the initial position if the enemy move off screen
-  if (this.x > 505 + 101 * 3) {
+  // blockWidth * 5 is the right edge of the canvas
+  if (this.x > blockWidth * 5 + blockWidth * 3) {
     this.x = this.startX;
   }
 
@@ -62,8 +70,8 @@ const Player = function() {
   this.sprite = 'images/char-boy.png';
 
   // The initial position of the player
-  this.startX = 101 * 2; // 3th column
-  this.startY = 83 * 5 - 83 / 2; // 6th row
+  this.startX = blockWidth * 2; // 3th column
+  this.startY = blockHeight * 5 - blockHalfHeight; // 6th row
 
   // Set the position of the player
   this.x = this.startX;
@@ -110,27 +118,27 @@ Player.prototype.handleInput = function(key) {
   if ('left' === key) {
 
     if (this.x) {
-      this.x -= 101;
+      this.x -= blockWidth;
     }
 
   } else if ('up' === key) {
 
-    if (41.5 === this.y) {
+    if (blockHalfHeight === this.y) {
       this.reset();
     } else {
-      this.y -= 83;
+      this.y -= blockHeight;
     }
 
   } else if ('right' === key) {
 
-    if (404 !== this.x) {
-      this.x += 101;
+    if (blockWidth * 4 !== this.x) {
+      this.x += blockWidth;
     }
 
   } else if ('down' === key) {
 
-    if (373.5 !== this.y) {
-      this.y += 83;
+    if (blockHeight * 4 - blockHalfHeight !== this.y) {
+      this.y += blockHeight;
     }
 
   }
@@ -145,7 +153,7 @@ const allEnemies = [];
 for (let i = 0; i < 6; i++) {
 
   // Set the y coordinate of the enemy
-  const y = 83 * (i % 3 + 1) - 83 / 2;
+  const y = blockHeight * (i % 3 + 1) - blockHalfHeight;
 
   allEnemies[i] = new Enemy(y);
 }
