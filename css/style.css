@@ -1,5 +1,5 @@
 /* Reset */
-ul {
+p, ul {
   margin: 0;
   padding: 0;
 }
@@ -39,4 +39,9 @@ body {
 .lives__item img {
   width: 100%;
   height: auto;
+}
+
+/* Level */
+.level {
+  padding-right: 0.5em;
 }
