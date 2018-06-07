@@ -63,6 +63,10 @@ Enemy.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+Enemy.prototype.updateSpeed = function() {
+  this.speed += 100;
+}
+
 /**
  * @description The player character
  * @constructor
@@ -135,7 +139,7 @@ Player.prototype.handleInput = function(key) {
   } else if ('up' === key) {
 
     if (blockHalfHeight === this.y) {
-      this.reset();
+      game.next();
     } else {
       this.y -= blockHeight;
     }
@@ -184,6 +188,30 @@ const Game = function() {
 
   // The score of the game
   this.score = 0;
+};
+
+/**
+ * @description Go to next level
+ */
+Game.prototype.next = function() {
+
+  // Move the player back to the initial position
+  player.reset();
+
+  // Update the speed of enemies
+  allEnemies.forEach(function(element) {
+    element.speed += 50;
+  });
+
+  // Level up
+  this.level++;
+
+  // Update the score
+  this.score += 100;
+
+  // Update the DOM
+  document.getElementById('level').textContent = this.level;
+  document.getElementById('score').textContent = this.score;
 };
 
 // Instantiate objects
