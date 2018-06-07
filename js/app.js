@@ -5,6 +5,9 @@ const blockHeight = 83;
 // The value to be subtracted in order to center entities vertically
 const blockHalfHeight = blockHeight / 2;
 
+// Get the DOM elements
+const lives = document.getElementById('lives');
+
 /**
  * @description Enemies the player must avoid
  * @constructor
@@ -79,6 +82,9 @@ const Player = function() {
 
   // Whether the player has collided with the enemy or not
   this.collision = false;
+
+  // The lives of the player
+  this.lives = 3;
 };
 
 /**
@@ -99,7 +105,11 @@ Player.prototype.update = function() {
 
     // Back to the initial position if a collision happens
     this.reset();
+
+    // Lose a life
+    this.loseLife();
   }
+
 };
 
 /**
@@ -141,6 +151,23 @@ Player.prototype.handleInput = function(key) {
       this.y += blockHeight;
     }
 
+  }
+
+};
+
+/**
+ * @description Update the lives of the player
+ */
+Player.prototype.loseLife = function() {
+
+  // Lose a life
+  this.lives -= 1;
+
+  // Update the DOM
+  lives.lastElementChild.remove();
+
+  if (0 === this.lives) {
+    game.end();
   }
 
 };
