@@ -137,7 +137,7 @@ Player.prototype.handleInput = function(key) {
 
   } else if ('down' === key) {
 
-    if (blockHeight * 4 - blockHalfHeight !== this.y) {
+    if (blockHeight * 5 - blockHalfHeight !== this.y) {
       this.y += blockHeight;
     }
 
