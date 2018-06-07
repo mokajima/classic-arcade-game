@@ -214,6 +214,40 @@ Game.prototype.next = function() {
   document.getElementById('score').textContent = this.score;
 };
 
+/**
+ * @description End the game
+ */
+Game.prototype.end = function() {
+
+  const fragment = document.createDocumentFragment();
+
+  const h2 = document.createElement('h2');
+  h2.classList.add('modal__title');
+  h2.textContent = 'Game Over';
+
+  const p = document.createElement('p');
+  p.textContent = 'Your score is';
+
+  const span = document.createElement('span');
+  span.classList.add('modal__score');
+  span.textContent = this.score;
+
+  // Clear the modal
+  modal.innerHTML = '';
+
+  // Update the DOM
+  p.append(span);
+  fragment.append(h2);
+  fragment.append(p);
+  modal.append(fragment);
+
+  // Display the modal
+  modal.classList.add('is-active');
+
+  // Remove the event listener of the keyup event
+  document.removeEventListener('keyup', keyup);
+};
+
 // Instantiate objects
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -234,7 +268,7 @@ const game = new Game();
 
 // This listens for key presses and sends the keys to the
 // Player.handleInput() method.
-document.addEventListener('keyup', function(e) {
+function keyup(e) {
   const allowedKeys = {
     37: 'left',
     38: 'up',
@@ -243,7 +277,9 @@ document.addEventListener('keyup', function(e) {
   };
 
   player.handleInput(allowedKeys[e.keyCode]);
-});
+}
+
+document.addEventListener('keyup', keyup);
 
 document.getElementById('modal__button').addEventListener('click', function() {
 
