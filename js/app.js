@@ -27,6 +27,12 @@ Enemy.prototype.update = function(dt) {
   if (this.x > 505 + 101 * 3) {
     this.x = -101 * 3;
   }
+
+  // Check collision with the player
+  if (Math.abs(this.x - player.x) < 75 && this.y === player.y) {
+    player.collision = true;
+  }
+
 };
 
 // Draw the enemy on the screen, required method for game
@@ -43,11 +49,28 @@ var Player = function() {
   // The initial position of the player
   this.x = 101 * 2; // 3th column
   this.y = 83 * 5 - 83 / 2; // 6th row
+
+  // Whether the player has collided with the enemy or not
+  this.collision = false;
 };
 
+/**
+ * @description Reset the state of the player
+ */
+Player.prototype.reset = function() {
+  this.x = 101 * 2;
+  this.y = 83 * 5 - 83 / 2;
+  this.collision = false;
+}
+
 // Update the player's position, required method for game
-// Parameter: dt, a time delta between ticks
-Player.prototype.update = function(dt) {
+Player.prototype.update = function() {
+
+  if (this.collision) {
+
+    // Back to the initial position if a collision happens
+    this.reset();
+  }
 };
 
 // Draw the player on the screen, required method for game
@@ -70,7 +93,7 @@ Player.prototype.handleInput = function(key) {
   } else if ('up' === key) {
 
     if (41.5 === this.y) {
-
+      this.reset();
     } else {
       this.y -= 83;
     }
