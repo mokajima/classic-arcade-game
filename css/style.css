@@ -1,5 +1,7 @@
 /* Reset */
-h2, p, ul {
+h2,
+p,
+ul {
   margin: 0;
   padding: 0;
 }
