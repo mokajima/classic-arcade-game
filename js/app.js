@@ -1,8 +1,12 @@
-// Enemies our player must avoid
+/**
+ * @description Enemies the player must avoid
+ * @constructor
+ * @param {number} y - The y coordinate of the player
+ */
 var Enemy = function(y) {
 
   // The image/sprite for our enemies, this uses
-  // a helper we've provided to easily load images
+  // a helper to easily load images
   this.sprite = 'images/enemy-bug.png';
 
   // The initial position of the enemy
@@ -14,8 +18,10 @@ var Enemy = function(y) {
   this.speed = Math.floor(Math.random() * (500 - 100)) + 100;
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+/**
+ * @description Update the enemy's position
+ * @param {number} dt - A time delta between ticks
+ */
 Enemy.prototype.update = function(dt) {
 
   // Multiply any movement by the dt parameter
@@ -35,15 +41,21 @@ Enemy.prototype.update = function(dt) {
 
 };
 
-// Draw the enemy on the screen, required method for game
+/**
+ * @description Draw the enemy on the screen
+ */
 Enemy.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+/**
+ * @description The player character
+ * @constructor
+ */
 var Player = function() {
 
   // The image/sprite for the player, this uses
-  // a helper we've provided to easily load images
+  // a helper to easily load images
   this.sprite = 'images/char-boy.png';
 
   // The initial position of the player
@@ -63,7 +75,9 @@ Player.prototype.reset = function() {
   this.collision = false;
 }
 
-// Update the player's position, required method for game
+/**
+ * @description Update the player's position
+ */
 Player.prototype.update = function() {
 
   if (this.collision) {
@@ -73,7 +87,9 @@ Player.prototype.update = function() {
   }
 };
 
-// Draw the player on the screen, required method for game
+/**
+ * @description Draw the player on the screen
+ */
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -129,8 +145,8 @@ for (var i = 0; i < 6; i++) {
 
 var player = new Player();
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses and sends the keys to the
+// Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
   var allowedKeys = {
     37: 'left',
