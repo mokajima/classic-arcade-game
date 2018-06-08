@@ -1,3 +1,5 @@
+'use strict';
+
 // Store the size of block in variables
 const blockWidth = 101;
 const blockHeight = 83;
