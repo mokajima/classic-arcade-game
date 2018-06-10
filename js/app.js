@@ -12,6 +12,19 @@ const lives = document.getElementById('lives');
 const modal = document.getElementById('modal');
 
 /**
+ * @description A superclass to represent a character
+ * @constructor
+ */
+const Character = function() {};
+
+/**
+ * @description Draw the character on the screen
+ */
+Character.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+/**
  * @description Enemies the player must avoid
  * @constructor
  * @param {number} y - The y coordinate of the player
@@ -33,6 +46,10 @@ const Enemy = function(y) {
   // Max speed is 500px/sec and min speed is 100px/sec
   this.speed = Math.floor(Math.random() * (500 - 100)) + 100;
 };
+
+// Inherit from the Character
+Enemy.prototype = Object.create(Character.prototype);
+Enemy.prototype.constructor = Enemy;
 
 /**
  * @description Update the enemy's position
@@ -56,13 +73,6 @@ Enemy.prototype.update = function(dt) {
     player.collision = true;
   }
 
-};
-
-/**
- * @description Draw the enemy on the screen
- */
-Enemy.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 Enemy.prototype.updateSpeed = function() {
@@ -94,6 +104,10 @@ const Player = function() {
   this.lives = 3;
 };
 
+// Inherit from the Character
+Player.prototype = Object.create(Character.prototype);
+Player.prototype.constructor = Player;
+
 /**
  * @description Reset the state of the player
  */
@@ -117,13 +131,6 @@ Player.prototype.update = function() {
     this.loseLife();
   }
 
-};
-
-/**
- * @description Draw the player on the screen
- */
-Player.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 /**
