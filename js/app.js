@@ -7,265 +7,272 @@ const blockHeight = 83;
 // The value to be subtracted in order to center entities vertically
 const blockHalfHeight = blockHeight / 2;
 
-// Get the DOM elements
-const lives = document.getElementById('lives');
-const modal = document.getElementById('modal');
+/**
+ * A superclass to represent a character
+ */
+class Character {
+
+  /**
+   * Draw the character on the screen
+   */
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+}
 
 /**
- * @description A superclass to represent a character
- * @constructor
+ * Enemie the player must avoid
+ * @extends Character
  */
-const Character = function() {};
+class Enemy extends Character {
 
-/**
- * @description Draw the character on the screen
- */
-Character.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+  /**
+   * Create an enemy
+   * @param {number} y - The y coordinate of the enemy
+   */
+  constructor(y) {
+    super();
 
-/**
- * @description Enemies the player must avoid
- * @constructor
- * @param {number} y - The y coordinate of the player
- */
-const Enemy = function(y) {
+    // The image/sprite for our enemies, this uses
+    // a helper to easily load images
+    this.sprite = 'images/enemy-bug.png';
 
-  // The image/sprite for our enemies, this uses
-  // a helper to easily load images
-  this.sprite = 'images/enemy-bug.png';
+    // The initial position of the enemy
+    this.startX = -1 * blockWidth * 3;
 
-  // The initial position of the enemy
-  this.startX = -1 * blockWidth * 3;
-
-  // Set the position of the enemy
-  this.x = this.startX;
-  this.y = y;
-
-  // Set the speed of the enemy
-  // Max speed is 500px/sec and min speed is 100px/sec
-  this.speed = Math.floor(Math.random() * (500 - 100)) + 100;
-};
-
-// Inherit from the Character
-Enemy.prototype = Object.create(Character.prototype);
-Enemy.prototype.constructor = Enemy;
-
-/**
- * @description Update the enemy's position
- * @param {number} dt - A time delta between ticks
- */
-Enemy.prototype.update = function(dt) {
-
-  // Multiply any movement by the dt parameter
-  // which will ensure the game runs at the same speed for
-  // all computers.
-  this.x += this.speed * dt;
-
-  // Back to the initial position if the enemy move off screen
-  // blockWidth * 5 is the right edge of the canvas
-  if (this.x > blockWidth * 5 + blockWidth * 3) {
+    // Set the position of the enemy
     this.x = this.startX;
+    this.y = y;
+
+    // Set the speed of the enemy
+    // Max speed is 500px/sec and min speed is 100px/sec
+    this.speed = Math.floor(Math.random() * (500 - 100)) + 100;
   }
 
-  // Check collision with the player
-  if (Math.abs(this.x - player.x) < 75 && this.y === player.y) {
-    player.collision = true;
+  /**
+   * @description Update the enemy's position
+   * @param {number} dt - A time delta between ticks
+   */
+  update(dt) {
+
+    // Multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+    this.x += this.speed * dt;
+
+    // Back to the initial position if the enemy move off screen
+    // blockWidth * 5 is the right edge of the canvas
+    if (this.x > blockWidth * 5 + blockWidth * 3) {
+      this.x = this.startX;
+    }
+
+    // Check collision with the player
+    if (Math.abs(this.x - player.x) < 75 && this.y === player.y) {
+      player.collision = true;
+    }
   }
 
-};
-
-Enemy.prototype.updateSpeed = function() {
-  this.speed += 100;
+  /**
+   * Update speed of the enemy
+   */
+  updateSpeed() {
+    this.speed += 100;
+  }
 }
 
 /**
- * @description The player character
- * @constructor
+ * The player character
+ * @extends Character
  */
-const Player = function() {
+class Player extends Character {
 
-  // The image/sprite for the player, this uses
-  // a helper to easily load images
-  this.sprite = 'images/char-boy.png';
+  /**
+   * Create a player
+   */
+  constructor() {
+    super();
 
-  // The initial position of the player
-  this.startX = blockWidth * 2; // 3th column
-  this.startY = blockHeight * 5 - blockHalfHeight; // 6th row
+    // The image/sprite for the player, this uses
+    // a helper to easily load images
+    this.sprite = 'images/char-boy.png';
 
-  // Set the position of the player
-  this.x = this.startX;
-  this.y = this.startY;
+    // The initial position of the player
+    this.startX = blockWidth * 2; // 3th column
+    this.startY = blockHeight * 5 - blockHalfHeight; // 6th row
 
-  // Whether the player has collided with the enemy or not
-  this.collision = false;
+    // Set the position of the player
+    this.x = this.startX;
+    this.y = this.startY;
 
-  // The lives of the player
-  this.lives = 3;
-};
+    // Whether the player has collided with the enemy or not
+    this.collision = false;
 
-// Inherit from the Character
-Player.prototype = Object.create(Character.prototype);
-Player.prototype.constructor = Player;
+    // The lives of the player
+    this.lives = 3;
+  }
 
-/**
- * @description Reset the state of the player
- */
-Player.prototype.reset = function() {
-  this.x = this.startX;
-  this.y = this.startY;
-  this.collision = false;
-}
-
-/**
- * @description Update the player's position
- */
-Player.prototype.update = function() {
-
-  if (this.collision) {
-
-    // Back to the initial position if a collision happens
-    this.reset();
+  /**
+   * Update the lives of the player
+   */
+  loseLife() {
 
     // Lose a life
-    this.loseLife();
+    this.lives -= 1;
+
+    // Update the DOM
+    document.getElementById('lives').lastElementChild.remove();
+
+    if (0 === this.lives) {
+      game.end();
+    }
   }
 
-};
-
-/**
- * @description Move the player according to the user input
- * @param {string} key - The key pressed
- */
-Player.prototype.handleInput = function(key) {
-
-  if ('left' === key) {
-
-    // Move the player to the left
-    // 0 is the left edge of the canvas
-    if (this.x) {
-      this.x -= blockWidth;
-    }
-
-  } else if ('up' === key) {
-
-    if (blockHalfHeight === this.y) {
-
-      // Go to next level
-      game.next();
-
-    } else {
-
-      // Move the player up
-      this.y -= blockHeight;
-    }
-
-  } else if ('right' === key) {
-
-    // Move the player to the right
-    // blockWidth * 4 is the right edge of the canvas
-    if (blockWidth * 4 !== this.x) {
-      this.x += blockWidth;
-    }
-
-  } else if ('down' === key) {
-
-    // Move the player down
-    if (blockHeight * 5 - blockHalfHeight !== this.y) {
-      this.y += blockHeight;
-    }
-
+  /**
+   * Reset the state of the player
+   */
+  reset() {
+    this.x = this.startX;
+    this.y = this.startY;
+    this.collision = false;
   }
 
-};
+  /**
+   * Update the player's position
+   */
+  update() {
 
-/**
- * @description Update the lives of the player
- */
-Player.prototype.loseLife = function() {
+    if (this.collision) {
 
-  // Lose a life
-  this.lives -= 1;
+      // Back to the initial position if a collision happens
+      this.reset();
 
-  // Update the DOM
-  lives.lastElementChild.remove();
-
-  if (0 === this.lives) {
-    game.end();
+      // Lose a life
+      this.loseLife();
+    }
   }
 
-};
+  /**
+   * Move the player according to the user input
+   * @param {string} key - The key pressed
+   */
+  handleInput(key) {
+
+    if ('left' === key) {
+
+      // Move the player to the left
+      // 0 is the left edge of the canvas
+      if (this.x) {
+        this.x -= blockWidth;
+      }
+
+    } else if ('up' === key) {
+
+      if (blockHalfHeight === this.y) {
+
+        // Go to next level
+        game.next();
+
+      } else {
+
+        // Move the player up
+        this.y -= blockHeight;
+      }
+
+    } else if ('right' === key) {
+
+      // Move the player to the right
+      // blockWidth * 4 is the right edge of the canvas
+      if (blockWidth * 4 !== this.x) {
+        this.x += blockWidth;
+      }
+
+    } else if ('down' === key) {
+
+      // Move the player down
+      if (blockHeight * 5 - blockHalfHeight !== this.y) {
+        this.y += blockHeight;
+      }
+    }
+  }
+}
 
 /**
- * @description Handle the game states
- * @constructor
+ * Handle the game states
  */
-const Game = function() {
+class Game {
 
-  // The level of the game
-  this.level = 1;
+  /**
+   * Create a game
+   */
+  constructor() {
 
-  // The score of the game
-  this.score = 0;
-};
+    // The level of the game
+    this.level = 1;
 
-/**
- * @description Go to next level
- */
-Game.prototype.next = function() {
+    // The score of the game
+    this.score = 0;
+  }
 
-  // Move the player back to the initial position
-  player.reset();
+  /**
+   * Go to next level
+   */
+  next() {
 
-  // Update the speed of enemies
-  allEnemies.forEach(function(element) {
-    element.speed += 50;
-  });
+    // Move the player back to the initial position
+    player.reset();
 
-  // Level up
-  this.level++;
+    // Update the speed of enemies
+    allEnemies.forEach(function(element) {
+      element.speed += 50;
+    });
 
-  // Update the score
-  this.score += 100;
+    // Level up
+    this.level++;
 
-  // Update the DOM
-  document.getElementById('level').textContent = this.level;
-  document.getElementById('score').textContent = this.score;
-};
+    // Update the score
+    this.score += 100;
 
-/**
- * @description End the game
- */
-Game.prototype.end = function() {
+    // Update the DOM
+    document.getElementById('level').textContent = this.level;
+    document.getElementById('score').textContent = this.score;
+  }
 
-  const fragment = document.createDocumentFragment();
+  /**
+   * End the game
+   */
+  end() {
 
-  const h2 = document.createElement('h2');
-  h2.classList.add('modal__title');
-  h2.textContent = 'Game Over';
+    const modal = document.getElementById('modal');
 
-  const p = document.createElement('p');
-  p.textContent = 'Your score is';
+    const fragment = document.createDocumentFragment();
 
-  const span = document.createElement('span');
-  span.classList.add('modal__score');
-  span.textContent = this.score;
+    const h2 = document.createElement('h2');
+    h2.classList.add('modal__title');
+    h2.textContent = 'Game Over';
 
-  // Clear the modal
-  modal.innerHTML = '';
+    const p = document.createElement('p');
+    p.textContent = 'Your score is';
 
-  // Update the DOM
-  p.append(span);
-  fragment.append(h2);
-  fragment.append(p);
-  modal.append(fragment);
+    const span = document.createElement('span');
+    span.classList.add('modal__score');
+    span.textContent = this.score;
 
-  // Display the modal
-  modal.classList.add('is-active');
+    // Clear the modal
+    modal.innerHTML = '';
 
-  // Remove the event listener of the keyup event
-  document.removeEventListener('keyup', keyup);
-};
+    // Update the DOM
+    p.append(span);
+    fragment.append(h2);
+    fragment.append(p);
+    modal.append(fragment);
+
+    // Display the modal
+    modal.classList.add('is-active');
+
+    // Remove the event listener of the keyup event
+    document.removeEventListener('keyup', keyup);
+  }
+}
 
 // Instantiate objects
 // Place all enemy objects in an array called allEnemies
@@ -286,8 +293,11 @@ const player = new Player();
 
 const game = new Game();
 
-// This listens for key presses and sends the keys to the
-// Player.handleInput() method.
+/**
+ * This listens for key presses and sends the keys to the
+ * Player.handleInput() method.
+ * @param {object} e - The event object
+ */
 function keyup(e) {
   const allowedKeys = {
     37: 'left',
@@ -304,5 +314,5 @@ document.addEventListener('keyup', keyup);
 document.getElementById('modal__button').addEventListener('click', function() {
 
   // Hide the modal
-  modal.classList.remove('is-active');
+  document.getElementById('modal').classList.remove('is-active');
 });
