@@ -141,6 +141,8 @@ Player.prototype.handleInput = function(key) {
 
   if ('left' === key) {
 
+    // Move the player to the left
+    // 0 is the left edge of the canvas
     if (this.x) {
       this.x -= blockWidth;
     }
@@ -148,19 +150,27 @@ Player.prototype.handleInput = function(key) {
   } else if ('up' === key) {
 
     if (blockHalfHeight === this.y) {
+
+      // Go to next level
       game.next();
+
     } else {
+
+      // Move the player up
       this.y -= blockHeight;
     }
 
   } else if ('right' === key) {
 
+    // Move the player to the right
+    // blockWidth * 4 is the right edge of the canvas
     if (blockWidth * 4 !== this.x) {
       this.x += blockWidth;
     }
 
   } else if ('down' === key) {
 
+    // Move the player down
     if (blockHeight * 5 - blockHalfHeight !== this.y) {
       this.y += blockHeight;
     }
@@ -266,6 +276,7 @@ const allEnemies = [];
 for (let i = 0; i < 6; i++) {
 
   // Set the y coordinate of the enemy
+  // Place two enemies on each line
   const y = blockHeight * (i % 3 + 1) - blockHalfHeight;
 
   allEnemies[i] = new Enemy(y);
