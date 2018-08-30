@@ -1,10 +1,10 @@
-# Classic Arcade Game Clone
+# Classic Arcade Game
 
-The Classic Arcade Game Clone is a project to recreate the classic arcade game Frogger.
+Classic Arcade Game is a HTML5 Canvas powered video game, developed using Object Oriented JavaScript.
 
 ## Demo
 
-https://mokajima.github.io/classic-arcade-game-clone/
+https://mokajima.github.io/classic-arcade-game/
 
 ## How to play
 
@@ -16,4 +16,4 @@ Download the files from this repo and open index.html in your favorite browser.
 
 ## Acknowledgements
 
-- Udacity - visual assets and the game loop engine
+- Udacity - provided visual assets and the game loop engine
