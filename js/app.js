@@ -68,7 +68,7 @@ class Enemy extends Character {
 
     // Check collision with the player
     if (Math.abs(this.x - player.x) < 75 && this.y === player.y) {
-      player.collision = true;
+      player.collide();
     }
   }
 
@@ -109,6 +109,13 @@ class Player extends Character {
 
     // The lives of the player
     this.lives = 3;
+  }
+
+  /**
+   * Update the collision property of the player
+   */
+  collide() {
+    this.collision = true;
   }
 
   /**
