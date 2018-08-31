@@ -76,7 +76,7 @@ class Enemy extends Character {
    * Update speed of the enemy
    */
   updateSpeed() {
-    this.speed += 100;
+    this.speed += 50;
   }
 }
 
@@ -224,7 +224,7 @@ class Game {
 
     // Update the speed of enemies
     allEnemies.forEach(function(element) {
-      element.speed += 50;
+      element.updateSpeed();
     });
 
     // Level up
