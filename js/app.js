@@ -1,7 +1,9 @@
 'use strict';
 
-// Store the size of block in variables
+// The width of blocks
 const blockWidth = 101;
+
+// The height of blocks
 const blockHeight = 83;
 
 // The value to be subtracted in order to center entities vertically
@@ -265,10 +267,7 @@ class Game {
   }
 }
 
-// Instantiate objects
 // Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-// Place the game object in a variable called game
 const allEnemies = [];
 
 for (let i = 0; i < 6; i++) {
@@ -280,8 +279,10 @@ for (let i = 0; i < 6; i++) {
   allEnemies[i] = new Enemy(y);
 }
 
+// Place the player object in a variable called player
 const player = new Player();
 
+// Place the game object in a variable called game
 const game = new Game();
 
 /**
