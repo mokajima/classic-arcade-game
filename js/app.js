@@ -157,41 +157,42 @@ class Player extends Character {
    */
   handleInput(key) {
 
-    if ('left' === key) {
+    switch (key) {
 
-      // Move the player to the left
-      // 0 is the left edge of the canvas
-      if (this.x) {
-        this.x -= blockWidth;
-      }
+      case 'left' :
 
-    } else if ('up' === key) {
+        // Move the player to the left
+        // 0 is the left edge of the canvas
+        this.x -= (0 === this.x) ? 0 : blockWidth;
+        break;
 
-      if (blockHalfHeight === this.y) {
+      case 'up' :
 
-        // Go to next level
-        game.next();
+        if (blockHalfHeight === this.y) {
 
-      } else {
+          // Go to next level
+          game.next();
 
-        // Move the player up
-        this.y -= blockHeight;
-      }
+        } else {
 
-    } else if ('right' === key) {
+          // Move the player up
+          this.y -= blockHeight;
+        }
 
-      // Move the player to the right
-      // blockWidth * 4 is the right edge of the canvas
-      if (blockWidth * 4 !== this.x) {
-        this.x += blockWidth;
-      }
+        break;
 
-    } else if ('down' === key) {
+      case 'right' :
 
-      // Move the player down
-      if (blockHeight * 5 - blockHalfHeight !== this.y) {
-        this.y += blockHeight;
-      }
+        // Move the player to the right
+        // blockWidth * 4 is the right edge of the canvas
+        this.x += (blockWidth * 4 === this.x) ? 0 : blockWidth;
+        break;
+
+      case 'down' :
+
+        // Move the player down
+        this.y += (blockHeight * 5 - blockHalfHeight === this.y) ? 0 : blockHeight;
+        break;
     }
   }
 }
