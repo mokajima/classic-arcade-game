@@ -245,27 +245,10 @@ class Game {
 
     const modal = document.getElementById('modal');
 
-    const fragment = document.createDocumentFragment();
-
-    const h2 = document.createElement('h2');
-    h2.classList.add('modal__title');
-    h2.textContent = 'Game Over';
-
-    const p = document.createElement('p');
-    p.textContent = 'Your score is';
-
-    const span = document.createElement('span');
-    span.classList.add('modal__score');
-    span.textContent = this.score;
-
-    // Clear the modal
-    modal.innerHTML = '';
-
-    // Update the DOM
-    p.append(span);
-    fragment.append(h2);
-    fragment.append(p);
-    modal.append(fragment);
+    // Modify HTML of the modal
+    modal.innerHTML = '<h2 class="modal__title">Game Over</h2>'
+                        + `<p>Your score is<span class="modal__score">${this.score}</span></p>`
+                        + '</h2>'
 
     // Display the modal
     modal.classList.add('is-active');
