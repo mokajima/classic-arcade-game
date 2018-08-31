@@ -293,10 +293,13 @@ function keyup(e) {
   player.handleInput(allowedKeys[e.keyCode]);
 }
 
-document.addEventListener('keyup', keyup);
-
-document.getElementById('modal__button').addEventListener('click', function() {
-
-  // Hide the modal
+/**
+ * Hide the modal
+ */
+function hideModal() {
   document.getElementById('modal').classList.remove('is-active');
-});
+}
+
+// Add event listeners
+document.addEventListener('keyup', keyup);
+document.getElementById('modal__button').addEventListener('click', hideModal);
