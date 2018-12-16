@@ -63,9 +63,12 @@ body {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -60%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  transform: translateY(10%);
   width: 400px;
   height: 250px;
   opacity: 0;
@@ -74,7 +77,7 @@ body {
 }
 
 .modal.is-active {
-  transform: translate(-50%, -50%);
+  transform: translateY(0);
   opacity: 1;
   visibility: visible;
 }
