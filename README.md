@@ -2,6 +2,8 @@
 
 Classic Arcade Game is a HTML5 Canvas powered video game, developed using Object Oriented JavaScript.
 
+![Screenshot](https://mokajima.github.io/portfolio/images/classic-arcade-game.jpg)
+
 ## Demo
 
 https://mokajima.github.io/classic-arcade-game/
